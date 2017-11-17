@@ -5,6 +5,5 @@
 # Hanyang University, Seoul, Korea
 # Embedded Software Systems Laboratory. All right reserved
 
-mkdir rd
-chmod 0755 rd
+#!/bin/bash
 sudo mount -t tmpfs -o size=20g tmpfs ./rd
