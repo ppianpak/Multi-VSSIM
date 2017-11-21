@@ -63,3 +63,4 @@ QEMU/x86_64-softmmu/data/mapping_table.dat
 QEMU/x86_64-softmmu/data/perf_manager.dat
 QEMU/x86_64-softmmu/data/valid_array.dat
 QEMU/x86_64-softmmu/data/victim_block_list.dat
+RAMDISK/rd/*
