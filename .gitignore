@@ -56,3 +56,10 @@ QEMU/x86_64-softmmu/qemu-monitor.h
 QEMU/x86_64-softmmu/qemu-options.h
 QEMU/x86_64-softmmu/qemu-system-x86_64
 QEMU/x86_64-softmmu/ssd_monitor
+QEMU/x86_64-softmmu/data/block_state_table.dat
+QEMU/x86_64-softmmu/data/empty_block_list.dat
+QEMU/x86_64-softmmu/data/inverse_mapping.dat
+QEMU/x86_64-softmmu/data/mapping_table.dat
+QEMU/x86_64-softmmu/data/perf_manager.dat
+QEMU/x86_64-softmmu/data/valid_array.dat
+QEMU/x86_64-softmmu/data/victim_block_list.dat
