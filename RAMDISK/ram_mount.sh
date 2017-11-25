@@ -6,4 +6,4 @@
 # Embedded Software Systems Laboratory. All right reserved
 
 #!/bin/bash
-sudo mount -t tmpfs -o size=20g tmpfs ./rd
+sudo mount -t tmpfs -o size=10G tmpfs ./rd
