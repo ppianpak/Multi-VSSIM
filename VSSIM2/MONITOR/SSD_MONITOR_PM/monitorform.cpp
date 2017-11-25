@@ -42,7 +42,7 @@ MonitorForm::~MonitorForm()
  */
 void MonitorForm::init_variables()
 {
-    this->setWindowTitle("SSD Monitor");
+    this->setWindowTitle("SSD Monitor [VSSIM2]");
 
     /* initialize count variables. */
     time = 0;
