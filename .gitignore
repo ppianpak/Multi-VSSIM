@@ -6,10 +6,10 @@ RAMDISK/rd/*
 
 **/*.o
 **/*.d
-
 **/MONITOR/SSD_MONITOR_PM/Makefile
 **/MONITOR/SSD_MONITOR_PM/moc_monitorform.cpp
 **/MONITOR/SSD_MONITOR_PM/ssd_monitor_p
+**/MONITOR/SSD_MONITOR_PM/ssd_monitor_p.pro.user
 **/MONITOR/SSD_MONITOR_PM/ui_monitorform.h
 **/QEMU/Makefile.target
 **/QEMU/config-host.h

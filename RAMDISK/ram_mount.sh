@@ -7,3 +7,4 @@
 
 #!/bin/bash
 sudo mount -t tmpfs -o size=10G tmpfs ./rd
+cp .gitignore_o rd/.gitignore
