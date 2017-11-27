@@ -56,7 +56,7 @@ ln -s ../../FIRMWARE/ssd.c						../../QEMU/hw/ssd.c
 ln -s ../../FIRMWARE/firm_buffer_manager.c				../../QEMU/hw/firm_buffer_manager.c
 
 # Monitor setting
-ln -s ../../MONITOR/SSD_MONITOR_PM/ssd_monitor_p 			../../QEMU/x86_64-softmmu/ssd_monitor
+ln -s ../../../MONITOR/SSD_MONITOR_PM/ssd_monitor_p 			../../QEMU/x86_64-softmmu/ssd_monitor
 
 # SSD_configuration setting
 ln -s ../../../CONFIG/ssd.conf						../../QEMU/x86_64-softmmu/data/ssd.conf

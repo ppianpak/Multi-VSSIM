@@ -29,7 +29,7 @@ MonitorForm::MonitorForm(QWidget *parent) :
     /* initialize socket connected with VSSIM */
     socket = new QTcpSocket(this);
     connect(socket, SIGNAL(readyRead()), this, SLOT(onReceive()));
-    socket->connectToHost("127.0.0.1", 9991);
+    socket->connectToHost("127.0.0.1", 9990);
 }
 
 MonitorForm::~MonitorForm()
@@ -42,7 +42,7 @@ MonitorForm::~MonitorForm()
  */
 void MonitorForm::init_variables()
 {
-    this->setWindowTitle("SSD Monitor [VSSIM2]");
+    this->setWindowTitle("SSD Monitor");
 
     /* initialize count variables. */
     time = 0;
