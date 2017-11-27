@@ -13,8 +13,15 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    MonitorForm w;
-    w.show();
+
+//    MonitorForm w3(9992, "VSSIM3");
+//    w3.show();
+
+    MonitorForm w2(9991, "VSSIM2");
+    w2.show();
+
+    MonitorForm w1(9990, "VSSIM1");
+    w1.show();
 
     return a.exec();
 }

@@ -27,7 +27,7 @@ public slots:
     void onReceive();
 
 public:
-    explicit MonitorForm(QWidget *parent = 0);
+    explicit MonitorForm(quint16 port, QString vm_name = "", QWidget *parent = 0);
     ~MonitorForm();
     void init_variables();
 
@@ -44,9 +44,7 @@ private:
     long long int time;
     int CELL_PROGRAM_DELAY;
 
-    long int gcCount;
-    int gcStarted;
-    int gcExchange, gcSector;
+    long int gcCount, gcVSSIM1, gcVSSIM2, gcVSSIM3;
     int randMergeCount, seqMergeCount;
     long int overwriteCount;
 

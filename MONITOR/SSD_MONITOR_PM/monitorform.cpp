@@ -12,11 +12,19 @@
 #include <QFile>
 #include <QFileDialog>
 
-MonitorForm::MonitorForm(QWidget *parent) :
+MonitorForm::MonitorForm(quint16 port, QString vm_name, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::MonitorForm)
 {
     /* initialize variables. */
+	if (vm_name == "")
+	{
+		this->setWindowTitle("SSD Monitor");
+	}
+	else
+	{
+		this->setWindowTitle("SSD Monitor [" + vm_name + "]");
+	}
     init_variables();
 
     ui->setupUi(this);
@@ -29,7 +37,7 @@ MonitorForm::MonitorForm(QWidget *parent) :
     /* initialize socket connected with VSSIM */
     socket = new QTcpSocket(this);
     connect(socket, SIGNAL(readyRead()), this, SLOT(onReceive()));
-    socket->connectToHost("127.0.0.1", 9990);
+    socket->connectToHost("127.0.0.1", port);
 }
 
 MonitorForm::~MonitorForm()
@@ -42,14 +50,11 @@ MonitorForm::~MonitorForm()
  */
 void MonitorForm::init_variables()
 {
-    this->setWindowTitle("SSD Monitor");
-
     /* initialize count variables. */
     time = 0;
 
     gcCount = 0;
-    gcStarted = 0;
-    gcExchange = gcSector = 0;
+    gcVSSIM1 = gcVSSIM2 = gcVSSIM3 = 0;
     randMergeCount = seqMergeCount = 0;
     //overwriteCount = 0;
 
@@ -244,8 +249,9 @@ void MonitorForm::on_btnReset_clicked()
     ui->txtReadSectorCount->setText("0");
 
     ui->txtGCCount->setText("0");
-    ui->txtGCExchange->setText("0");
-    ui->txtGCSector->setText("0");
+    ui->txtGCVSSIM1->setText("0");
+    ui->txtGCVSSIM2->setText("0");
+    ui->txtGCVSSIM3->setText("0");
 
     ui->txtTrimCount->setText("0");
     ui->txtTrimEffect->setText("0");
@@ -290,9 +296,10 @@ void MonitorForm::on_btnSave_clicked()
     out << "Read Sector\t" << readSectorCount << "\n\n";
 
     out << "Garbage Collection\n";
-    out << "  Count\t" << gcCount <<"\n";
-    out << "  Exchange\t" << gcExchange << "\n";
-    out << "  Sector Count\t" << gcStarted << "\n\n";
+    out << "  Count (blocks)\t" << gcCount <<"\n";
+    out << "  VSSIM1 (pages)\t" << gcVSSIM1 << "\n";
+    out << "  VSSIM2 (pages)\t" << gcVSSIM2 << "\n";
+    out << "  VSSIM3 (pages)\t" << gcVSSIM3 << "\n\n";
 
     out << "TRIM Count\t" << trimCount << "\n";
     out << "TRIM effect\t" << trimEffect << "\n\n";

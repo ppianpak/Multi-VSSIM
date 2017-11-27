@@ -283,7 +283,7 @@ QGroupBox::title {
    <widget class="QLineEdit" name="txtGCCount">
     <property name="geometry">
      <rect>
-      <x>110</x>
+      <x>20</x>
       <y>40</y>
       <width>89</width>
       <height>22</height>
@@ -299,7 +299,26 @@ QGroupBox::title {
      <cstring>txtGCCount</cstring>
     </property>
    </widget>
-   <widget class="QLineEdit" name="txtGCExchange">
+   <widget class="QLineEdit" name="txtGCVSSIM1">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>40</y>
+      <width>89</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>0</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignRight</set>
+    </property>
+    <property name="name" stdset="0">
+     <cstring>txtGCVSSIM1</cstring>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="txtGCVSSIM2">
     <property name="geometry">
      <rect>
       <x>240</x>
@@ -315,32 +334,13 @@ QGroupBox::title {
      <set>Qt::AlignRight</set>
     </property>
     <property name="name" stdset="0">
-     <cstring>txtGCExchange</cstring>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="txtGCSector">
-    <property name="geometry">
-     <rect>
-      <x>360</x>
-      <y>40</y>
-      <width>89</width>
-      <height>22</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>0</string>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignRight</set>
-    </property>
-    <property name="name" stdset="0">
-     <cstring>txtGCSector</cstring>
+     <cstring>txtGCVSSIM2</cstring>
     </property>
    </widget>
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>130</x>
+      <x>40</x>
       <y>20</y>
       <width>66</width>
       <height>20</height>
@@ -356,33 +356,68 @@ QGroupBox::title {
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>250</x>
-      <y>20</y>
-      <width>75</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Exchange</string>
-    </property>
-    <property name="name" stdset="0">
-     <cstring>txtLabelGCExchange</cstring>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label">
-    <property name="geometry">
-     <rect>
-      <x>380</x>
+      <x>150</x>
       <y>20</y>
       <width>51</width>
       <height>20</height>
      </rect>
     </property>
     <property name="text">
-     <string>Sector</string>
+     <string>VSSIM1</string>
     </property>
     <property name="name" stdset="0">
-     <cstring>txtLabelGCSector</cstring>
+     <cstring>txtLabelGCVSSIM1</cstring>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>260</x>
+      <y>20</y>
+      <width>51</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>VSSIM2</string>
+    </property>
+    <property name="name" stdset="0">
+     <cstring>txtLabelGCVSSIM2</cstring>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="txtGCVSSIM3">
+    <property name="geometry">
+     <rect>
+      <x>350</x>
+      <y>40</y>
+      <width>89</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>0</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignRight</set>
+    </property>
+    <property name="name" stdset="0">
+     <cstring>txtGCVSSIM3</cstring>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_2">
+    <property name="geometry">
+     <rect>
+      <x>370</x>
+      <y>20</y>
+      <width>51</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>VSSIM3</string>
+    </property>
+    <property name="name" stdset="0">
+     <cstring>txtLabelGCVSSIM3</cstring>
     </property>
    </widget>
   </widget>
