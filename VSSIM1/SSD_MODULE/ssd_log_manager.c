@@ -32,7 +32,10 @@ double send_cnt = 0;
 void INIT_LOG_MANAGER(void)
 {
 	if(g_init_log_server == 0){
-		popen("./ssd_monitor", "r");
+		if (VSSIM_ID == 1)
+		{
+			popen("./ssd_monitor", "r");
+		}
 		THREAD_SERVER(NULL);
 
 		g_init_log_server = 1;

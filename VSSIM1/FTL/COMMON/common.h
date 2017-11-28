@@ -16,6 +16,8 @@
 #include <sys/time.h>
 #include "ftl_type.h"
 
+#define VSSIM_ID 1
+
 /* FTL */
 /* VSSIM Function */
 #define MONITOR_ON
