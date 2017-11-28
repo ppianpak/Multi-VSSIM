@@ -321,7 +321,7 @@ void MonitorForm::on_btnSave_clicked()
     out << "Written Page\t" << writtenPageCount << "\n";
     out << "Run-time[ms]\t" << s_timer << "\n";
 
-    out << "Hash\n" << s_timer << "\n";
+    out << "Hash\n";
     QHash<int, int>::const_iterator i = hash.constBegin();
     while (i != hash.constEnd()) {
         out << i.key() << ": " << i.value() << "\n";
