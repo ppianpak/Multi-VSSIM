@@ -20,8 +20,9 @@ void GC_CHECK(unsigned int phy_flash_nb, unsigned int phy_block_nb)
 	int mapping_index = plane_nb * FLASH_NB + phy_flash_nb;
 	
 #ifdef GC_TRIGGER_OVERALL
-//	if(total_empty_block_nb < GC_THRESHOLD_BLOCK_NB)
-	if(total_empty_block_nb <= FLASH_NB * PLANES_PER_FLASH)
+//printf("%d %d\n", total_empty_block_nb, GC_THRESHOLD_BLOCK_NB);
+	if(total_empty_block_nb < GC_THRESHOLD_BLOCK_NB)
+//	if(total_empty_block_nb <= FLASH_NB * PLANES_PER_FLASH)
 	{
 		for(i=0; i<GC_VICTIM_NB; i++){
 			ret = GARBAGE_COLLECTION();
@@ -63,6 +64,8 @@ int GARBAGE_COLLECTION(void)
 
 	nand_io_info* n_io_info = NULL;
 	block_state_entry* b_s_entry;
+
+	char szTemp[1024];
 
 	ret = SELECT_VICTIM_BLOCK(&victim_phy_flash_nb, &victim_phy_block_nb);
 	if(ret == FAIL){
@@ -110,6 +113,9 @@ int GARBAGE_COLLECTION(void)
 			UPDATE_NEW_PAGE_MAPPING(lpn, new_ppn);
 
 			copy_page_nb++;
+
+			sprintf(szTemp, "GC PPN %d %d", old_ppn, new_ppn);
+			WRITE_LOG(szTemp);
 		}
 	}
 
@@ -129,8 +135,7 @@ int GARBAGE_COLLECTION(void)
 	gc_count++;
 
 #ifdef MONITOR_ON
-	char szTemp[1024];
-	sprintf(szTemp, "GC ");
+	sprintf(szTemp, "GC COUNT ");
 	WRITE_LOG(szTemp);
 	sprintf(szTemp, "WB AMP %d", copy_page_nb);
 	WRITE_LOG(szTemp);
