@@ -350,7 +350,7 @@ void INIT_SSD_CONFIG(void)
 
 	/* Garbage Collection */
 #if defined PAGE_MAP || defined BLOCK_MAP || defined DA_MAP
-	GC_THRESHOLD = 0.4; // 0.7 for 70%, 0.9 for 90%
+	GC_THRESHOLD = 0.2; // 0.7 for 70%, 0.9 for 90%
 	GC_THRESHOLD_HARD = 0.98;
 	GC_THRESHOLD_BLOCK_NB = (int)((1-GC_THRESHOLD) * (double)BLOCK_MAPPING_ENTRY_NB);
 	GC_THRESHOLD_BLOCK_NB_HARD = (int)((1-GC_THRESHOLD_HARD) * (double)BLOCK_MAPPING_ENTRY_NB);

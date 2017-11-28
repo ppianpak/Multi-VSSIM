@@ -17,7 +17,7 @@ MonitorForm::MonitorForm(quint16 port, int vssim_id, QWidget *parent) :
     ui(new Ui::MonitorForm)
 {
     /* initialize variables. */
-	this->setWindowTitle("SSD Monitor [VSSIM" + QString::number(vssim_id) + "]");
+	this->setWindowTitle("SSD Monitor [VSSIM" + QString::number(vssim_id + 1) + "]");
 	this->vssim_id = vssim_id;
     init_variables();
 
@@ -120,6 +120,10 @@ void MonitorForm::onReceive()
             	int32_t ppn;
             	stream >> ppn;
             	hash.insert(ppn, vssim_id);
+
+            	QTextStream stream2(&szCmdList[3]);
+            	stream2 >> ppn;
+            	hash.insert(ppn, vssim_id);
             }
         }
 
@@ -174,7 +178,7 @@ void MonitorForm::onReceive()
         		if (hash.contains(old_ppn))
         		{
         			int owner_id = hash.value(old_ppn);
-        			gcVSSIM[owner_id - 1]++;
+        			gcVSSIM[owner_id]++;
         			ui->txtGCVSSIM1->setText(QString::number(gcVSSIM[0]));
         			ui->txtGCVSSIM2->setText(QString::number(gcVSSIM[1]));
         			ui->txtGCVSSIM3->setText(QString::number(gcVSSIM[2]));
@@ -316,6 +320,13 @@ void MonitorForm::on_btnSave_clicked()
     out << "Write Amplification\t" << writeAmpCount << "\n";
     out << "Written Page\t" << writtenPageCount << "\n";
     out << "Run-time[ms]\t" << s_timer << "\n";
+
+    out << "Hash\n" << s_timer << "\n";
+    QHash<int, int>::const_iterator i = hash.constBegin();
+    while (i != hash.constEnd()) {
+        out << i.key() << ": " << i.value() << "\n";
+        ++i;
+    }
 
     file.close();
 }

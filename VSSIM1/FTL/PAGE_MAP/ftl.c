@@ -358,7 +358,9 @@ int _FTL_WRITE(int32_t sector_nb, unsigned int length)
 		remain -= write_sects;
 		left_skip = 0;
 
-		sprintf(szTemp, "WRITE PPN %d", new_ppn);
+//		sprintf(szTemp, "WRITE PPN %d", new_ppn);
+//		WRITE_LOG(szTemp);
+		sprintf(szTemp, "WRITE PPN %d %d", old_ppn, new_ppn);
 		WRITE_LOG(szTemp);
 	}
 
