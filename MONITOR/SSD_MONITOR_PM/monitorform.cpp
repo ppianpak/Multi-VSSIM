@@ -12,19 +12,13 @@
 #include <QFile>
 #include <QFileDialog>
 
-MonitorForm::MonitorForm(quint16 port, QString vm_name, QWidget *parent) :
+MonitorForm::MonitorForm(quint16 port, int vssim_id, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::MonitorForm)
 {
     /* initialize variables. */
-	if (vm_name == "")
-	{
-		this->setWindowTitle("SSD Monitor");
-	}
-	else
-	{
-		this->setWindowTitle("SSD Monitor [" + vm_name + "]");
-	}
+	this->setWindowTitle("SSD Monitor [VSSIM" + QString::number(vssim_id) + "]");
+	this->vssim_id = vssim_id;
     init_variables();
 
     ui->setupUi(this);
@@ -54,7 +48,7 @@ void MonitorForm::init_variables()
     time = 0;
 
     gcCount = 0;
-    gcVSSIM1 = gcVSSIM2 = gcVSSIM3 = 0;
+    gcVSSIM[0] = gcVSSIM[1] = gcVSSIM[2] = 0;
     randMergeCount = seqMergeCount = 0;
     //overwriteCount = 0;
 
@@ -86,11 +80,9 @@ void MonitorForm::onReceive()
 {
     QStringList szCmdList;
     QString szCmd;
-    char szTemp[128];
 
     while(socket->canReadLine())
     {
-
         szCmd = socket->readLine();
         szCmdList = szCmd.split(" ");
 
@@ -107,14 +99,11 @@ void MonitorForm::onReceive()
 
                 // Write Sector Number Count
                 writeSectorCount += length;
-
-                sprintf(szTemp, "%ld", writeSectorCount);
-                ui->txtWriteSectorCount->setText(szTemp);
+                ui->txtWriteSectorCount->setText(QString::number(writeSectorCount));
 
                 // Write SATA Command Count
                 writeCount++;
-                sprintf(szTemp, "%ld", writeCount);
-                ui->txtWriteCount->setText(szTemp);
+                ui->txtWriteCount->setText(QString::number(writeCount));
             }
             /* WRITE - BW : write speed. */
             else if(szCmdList[1] == "BW")
@@ -123,9 +112,14 @@ void MonitorForm::onReceive()
                 stream >> t;
 
                 if(t != 0){
-                    sprintf(szTemp, "%0.3lf", t);
-                    ui->txtWriteSpeed->setText(szTemp);
+                    ui->txtWriteSpeed->setText(QString::number(t));
                 }
+            }
+            else if(szCmdList[1] == "PPN")
+            {
+            	int32_t ppn;
+            	stream >> ppn;
+            	hash.insert(ppn, vssim_id);
             }
         }
 
@@ -141,14 +135,11 @@ void MonitorForm::onReceive()
                 /* Read Sector Number Count */
                 stream >> length;
                 readSectorCount += length;
-
-                sprintf(szTemp, "%ld", readSectorCount);
-                ui->txtReadSectorCount->setText(szTemp);
+                ui->txtReadSectorCount->setText(QString::number(readSectorCount));
 
                 /* Read SATA Command Count */
                 readCount++;
-                sprintf(szTemp, "%ld", readCount);
-                ui->txtReadCount->setText(szTemp);
+                ui->txtReadCount->setText(QString::number(readCount));
             }
             /* READ - BW : read speed. */
             else if(szCmdList[1] == "BW"){
@@ -157,8 +148,7 @@ void MonitorForm::onReceive()
 
                 if(t != 0)
                 {
-                    sprintf(szTemp, "%0.3lf", t);
-                    ui->txtReadSpeed->setText(szTemp);
+                    ui->txtReadSpeed->setText(QString::number(t));
                 }
             }
         }
@@ -166,9 +156,33 @@ void MonitorForm::onReceive()
         /* GC : gc has been occured. */
         else if(szCmdList[0] == "GC")
         {
-            gcCount++;
-            sprintf(szTemp, "%ld", gcCount);
-            ui->txtGCCount->setText(szTemp);
+        	if(szCmdList[1] == "COUNT")
+        	{
+				gcCount++;
+				ui->txtGCCount->setText(QString::number(gcCount));
+        	}
+        	else if(szCmdList[1] == "PPN")
+			{
+        		int32_t old_ppn;
+				int32_t new_ppn;
+
+        		QTextStream stream1(&szCmdList[2]);
+        		QTextStream stream2(&szCmdList[3]);
+        		stream1 >> old_ppn;
+        		stream2 >> new_ppn;
+
+        		if (hash.contains(old_ppn))
+        		{
+        			int owner_id = hash.value(old_ppn);
+        			gcVSSIM[owner_id - 1]++;
+        			ui->txtGCVSSIM1->setText(QString::number(gcVSSIM[0]));
+        			ui->txtGCVSSIM2->setText(QString::number(gcVSSIM[1]));
+        			ui->txtGCVSSIM3->setText(QString::number(gcVSSIM[2]));
+
+        			hash.remove(old_ppn);
+        			hash.insert(new_ppn, owner_id);
+        		}
+			}
         }
 
         /* WB : written block count, write amplification. */
@@ -181,16 +195,14 @@ void MonitorForm::onReceive()
             /* WB - CORRECT : written block count. */
             if(szCmdList[1] == "CORRECT")
             {
-                    writtenPageCount += wb;
-                    sprintf(szTemp, "%ld", writtenPageCount);
-                    ui->txtWrittenPage->setText(szTemp);
+				writtenPageCount += wb;
+				ui->txtWrittenPage->setText(QString::number(writtenPageCount));
             }
             /* WB - others : write amplificaton. */
             else
             {
-                    writeAmpCount += wb;
-                    sprintf(szTemp, "%ld", writeAmpCount);
-                    ui->txtWriteAmp->setText(szTemp);
+				writeAmpCount += wb;
+				ui->txtWriteAmp->setText(QString::number(writeAmpCount));
             }
         }
 
@@ -201,8 +213,7 @@ void MonitorForm::onReceive()
             if(szCmdList[1] == "INSERT")
             {
                 trimCount++;
-                sprintf(szTemp, "%d", trimCount);
-                ui->txtTrimCount->setText(szTemp);
+                ui->txtTrimCount->setText(QString::number(trimCount));
             }
             /* TRIM - others : trim effect. */
             else
@@ -211,8 +222,7 @@ void MonitorForm::onReceive()
                 QTextStream stream(&szCmdList[2]);
                 stream >> effect;
                 trimEffect+= effect;
-                sprintf(szTemp, "%d", trimEffect);
-                ui->txtTrimEffect->setText(szTemp);
+                ui->txtTrimEffect->setText(QString::number(trimEffect));
             }
         }
 
@@ -222,8 +232,7 @@ void MonitorForm::onReceive()
             double util = 0;
             QTextStream stream(&szCmdList[1]);
             stream >> util;
-            sprintf(szTemp, "%lf", util);
-            ui->txtSSDUtil->setText(szTemp);
+            ui->txtSSDUtil->setText(QString::number(util));
         }
 
         /* put socket string to debug status. */
@@ -297,9 +306,9 @@ void MonitorForm::on_btnSave_clicked()
 
     out << "Garbage Collection\n";
     out << "  Count (blocks)\t" << gcCount <<"\n";
-    out << "  VSSIM1 (pages)\t" << gcVSSIM1 << "\n";
-    out << "  VSSIM2 (pages)\t" << gcVSSIM2 << "\n";
-    out << "  VSSIM3 (pages)\t" << gcVSSIM3 << "\n\n";
+    out << "  VSSIM1 (pages)\t" << gcVSSIM[0] << "\n";
+    out << "  VSSIM2 (pages)\t" << gcVSSIM[1] << "\n";
+    out << "  VSSIM3 (pages)\t" << gcVSSIM[2] << "\n\n";
 
     out << "TRIM Count\t" << trimCount << "\n";
     out << "TRIM effect\t" << trimEffect << "\n\n";

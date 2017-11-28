@@ -13,9 +13,13 @@
 #include <QDialog>
 #include <QTimer>
 #include <QTcpSocket>
+#include <QHash>
+
+// hash from phy_page_nb to vssim_id
+static QHash<int, int> hash;
 
 namespace Ui {
-class MonitorForm;
+	class MonitorForm;
 }
 
 class MonitorForm : public QDialog
@@ -27,7 +31,7 @@ public slots:
     void onReceive();
 
 public:
-    explicit MonitorForm(quint16 port, QString vm_name = "", QWidget *parent = 0);
+    explicit MonitorForm(quint16 port, int vssim_id, QWidget *parent = 0);
     ~MonitorForm();
     void init_variables();
 
@@ -39,12 +43,14 @@ private:
     Ui::MonitorForm *ui;
     QTcpSocket *socket;
     QTimer *timer;
+    int vssim_id;
 
     /* variables */
     long long int time;
     int CELL_PROGRAM_DELAY;
 
-    long int gcCount, gcVSSIM1, gcVSSIM2, gcVSSIM3;
+    long int gcCount;
+    long int gcVSSIM[3];
     int randMergeCount, seqMergeCount;
     long int overwriteCount;
 

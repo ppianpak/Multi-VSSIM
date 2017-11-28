@@ -59,11 +59,12 @@ void SSD_WRITE(unsigned int length, int32_t sector_nb)
 	FTL_WRITE(sector_nb, length);
 #endif
 
-#ifdef MONITOR_ON
-	char szTemp[1024];
-	sprintf(szTemp, "WRITE PAGE %d ", length);
-	WRITE_LOG(szTemp);
-#endif
+// Redundant with _FTL_WRITE() in ftl.c
+//#ifdef MONITOR_ON
+//	char szTemp[1024];
+//	sprintf(szTemp, "WRITE PAGE %d", length);
+//	WRITE_LOG(szTemp);
+//#endif
 
 }
 

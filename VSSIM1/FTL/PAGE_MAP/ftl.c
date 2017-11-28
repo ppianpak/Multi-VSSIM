@@ -299,6 +299,8 @@ int _FTL_WRITE(int32_t sector_nb, unsigned int length)
 	int write_page_nb=0;
 	nand_io_info* n_io_info = NULL;
 
+	char szTemp[1024];
+
 	while(remain > 0){
 
 		if(remain > SECTORS_PER_PAGE - left_skip){
@@ -356,6 +358,8 @@ int _FTL_WRITE(int32_t sector_nb, unsigned int length)
 		remain -= write_sects;
 		left_skip = 0;
 
+		sprintf(szTemp, "WRITE PPN %d", new_ppn);
+		WRITE_LOG(szTemp);
 	}
 
 	INCREASE_IO_REQUEST_SEQ_NB();
@@ -368,8 +372,7 @@ int _FTL_WRITE(int32_t sector_nb, unsigned int length)
 #endif
 
 #ifdef MONITOR_ON
-	char szTemp[1024];
-	sprintf(szTemp, "WRITE PAGE %d ", length);
+	sprintf(szTemp, "WRITE PAGE %d", length);
 	WRITE_LOG(szTemp);
 	sprintf(szTemp, "WB CORRECT %d", write_page_nb);
 	WRITE_LOG(szTemp);
