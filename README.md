@@ -1,7 +1,7 @@
 To Run
 -----
-1. Make sure you compile the codes successfully. The steps are explained in the below section.
-2. Mount rd to Ramdisk
+1. Make sure you compile the codes successfully. The steps are explained in the section below.
+2. Mount rd to Ramdisk using RAMDISK/ram_mount.sh
 3. Make sure you have ubuntu-10.04.4-server-amd64.iso in your OS folder. If you want to use other image names, you will need to modify QEMU/x86_64-softmmu/run_linux.sh and QEMU/x86_64-softmmu/rrun_linux.sh in both VSSIM1 and VSSIM2 directories.
 4. [First time] run run_linux.sh which is on the top level of this project. It will create ssd_hda_1.img and ssd_hda_2.img in your RAMDISK/rd directory.
 5. If you already have ssd_hda_1.img and ssd_hda_2.img in your RAMDISK/rd directory, you can just run rrun_linux.sh
