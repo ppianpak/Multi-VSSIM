@@ -23,6 +23,26 @@ MonitorForm::MonitorForm(quint16 port, int vssim_id, QWidget *parent) :
 
     ui->setupUi(this);
 
+    // Retrieve hash data
+	if (vssim_id == 0)
+	{
+		QFile file("hash.dat");
+		if (file.open(QIODevice::ReadOnly))
+		{
+		    QTextStream in(&file);
+
+		    while (!in.atEnd())
+		    {
+		    	int ppn, owner_id;
+		    	in >> ppn;
+		    	in >> owner_id;
+		    	hash.insert(ppn, owner_id);
+		    }
+
+		    file.close();
+	    }
+	}
+
     /* initialize timer. */
     timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(onTimer()));
@@ -36,6 +56,20 @@ MonitorForm::MonitorForm(quint16 port, int vssim_id, QWidget *parent) :
 
 MonitorForm::~MonitorForm()
 {
+	if (vssim_id == 0)
+	{
+	    QFile file("hash.dat");
+	    file.open(QIODevice::WriteOnly);
+	    QTextStream out(&file);
+
+	    QHash<int, int>::const_iterator i = hash.constBegin();
+	    while (i != hash.constEnd()) {
+	        out << i.key() << " " << i.value() << "\n";
+	        ++i;
+	    }
+
+	    file.close();
+	}
     delete ui;
 }
 
@@ -323,7 +357,8 @@ void MonitorForm::on_btnSave_clicked()
 
     out << "Hash\n";
     QHash<int, int>::const_iterator i = hash.constBegin();
-    while (i != hash.constEnd()) {
+    while (i != hash.constEnd())
+    {
         out << i.key() << ": " << i.value() << "\n";
         ++i;
     }

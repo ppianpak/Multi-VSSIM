@@ -20,7 +20,7 @@ void GC_CHECK(unsigned int phy_flash_nb, unsigned int phy_block_nb)
 	int mapping_index = plane_nb * FLASH_NB + phy_flash_nb;
 	
 #ifdef GC_TRIGGER_OVERALL
-//printf("%d %d\n", total_empty_block_nb, GC_THRESHOLD_BLOCK_NB);
+//	printf("%d %d\n", total_empty_block_nb, GC_THRESHOLD_BLOCK_NB);
 	if(total_empty_block_nb < GC_THRESHOLD_BLOCK_NB)
 //	if(total_empty_block_nb <= FLASH_NB * PLANES_PER_FLASH)
 	{

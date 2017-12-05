@@ -2,6 +2,7 @@
 
 OS/*.iso
 RAMDISK/*.img
+RAMDISK/*.dat
 RAMDISK/rd/*
 
 **/*.o

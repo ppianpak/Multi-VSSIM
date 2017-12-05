@@ -6,4 +6,4 @@
 #!/bin/bash
 
 # rm -rf data/*.dat
-./qemu-system-x86_64 -m 2048M -cpu core2duo -hda ../../../RAMDISK/rd/ssd_hda_2.img -usbdevice tablet -redir tcp:2222::22
+./qemu-system-x86_64 -m 2048M -cpu core2duo -hda ../../../RAMDISK/rd/ssd_hda_2.img -cdrom ../../../OS/ubuntu-10.04.4-server-amd64.iso -usbdevice tablet -redir tcp:2222::22
