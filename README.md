@@ -6,6 +6,8 @@ To Run
 4. [First time] run run_linux.sh which is on the top level of this project. It will create ssd_hda_1.img and ssd_hda_2.img in your RAMDISK/rd directory.
 5. If you already have ssd_hda_1.img and ssd_hda_2.img in your RAMDISK/rd directory, you can just run rrun_linux.sh
 
+![Multi-VSSIM Architecture](https://www.cs.nmsu.edu/~ppianpak/figures/Multi-VSSIM.png)
+
 VSSIM: Virtual machine based SSD SIMulator
 -----
 * Maintainer : Jinsoo Yoo (jedisty@hanyang.ac.kr)
